@@ -1,7 +1,17 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --primary-red: #ff3b30;
+  --transparent-red: #ff3b3025;
+  --primary-blue: #007aff;
+  --transparent-blue: #007aff25;
+  --primary-dark: #7c7c7c;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&display=swap');
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Atkinson Hyperlegible Mono', Helvetica, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
