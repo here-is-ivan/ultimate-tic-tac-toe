@@ -1,8 +1,8 @@
-import type { Cell } from './ticTacToeUtils';
+import type { CellValues } from '../types';
 
-export function getTicTacToeWinner(cells: Cell[]): {
+export function getTicTacToeWinner(cells: CellValues[]): {
   hasWinner: boolean;
-  winner: Exclude<Cell, ''> | '';
+  winner: CellValues;
 } {
   const winPatterns = [
     // Rows
@@ -21,7 +21,7 @@ export function getTicTacToeWinner(cells: Cell[]): {
   for (const pattern of winPatterns) {
     const [a, b, c] = pattern;
     if (cells[a] !== '' && cells[a] === cells[b] && cells[a] === cells[c]) {
-      return { hasWinner: true, winner: cells[a] as Exclude<Cell, ''> };
+      return { hasWinner: true, winner: cells[a] as CellValues };
     }
   }
   return { hasWinner: false, winner: '' };

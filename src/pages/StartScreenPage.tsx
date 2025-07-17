@@ -21,7 +21,7 @@ const StartScreen = () => {
       stagger: { each: 0.02, from: 'start' },
       ease: 'back.out(2)',
     });
-    
+
     if (buttonsRef.current) {
       const btns = buttonsRef.current.querySelectorAll('.start-btn');
       gsap.set(btns, { opacity: 0 });
@@ -36,7 +36,7 @@ const StartScreen = () => {
   }, []);
 
   const goToPlayBoard = () => {
-    navigate('/play-board');
+    navigate('/ultimate-tic-tac-toe/play-board');
   };
 
   return (
@@ -72,7 +72,10 @@ const StartScreen = () => {
             <span className='title-letter'>e</span>
           </div>
         </h1>
-        <div ref={buttonsRef} className='flex-1 w-dvw flex flex-col items-center justify-center gap-8'>
+        <div
+          ref={buttonsRef}
+          className='flex-1 w-dvw flex flex-col items-center justify-center gap-8'
+        >
           <button
             onClick={goToPlayBoard}
             className='start-btn bg-[var(--primary-blue)] text-white font-bold text-2xl lg:text-xl p-6 lg:p-x rounded-lg cursor-pointer flex justify-center items-center gap-2 shadow-md hover:scale-110 transition-transform'

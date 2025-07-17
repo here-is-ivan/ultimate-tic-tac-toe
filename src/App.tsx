@@ -5,8 +5,8 @@ import PlayBoardPage from './pages/PlayBoardPage';
 const App = () => {
   return (
     <Routes>
-      <Route path='/' element={<StartScreen />} />
-      <Route path='/play-board' element={<PlayBoardPage />} />
+      <Route path='/ultimate-tic-tac-toe' element={<StartScreen />} />
+      <Route path='/ultimate-tic-tac-toe/play-board' element={<PlayBoardPage />} />
     </Routes>
   );
 };
