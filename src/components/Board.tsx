@@ -130,7 +130,7 @@ const Board = ({
 
   return (
     <div
-      className='h-5/6 lg:h-full aspect-square flex justify-center items-center overflow-hidden'
+      className='h-5/6 lg:h-full aspect-square flex justify-center items-center'
       ref={boardRef}
     >
       <div
@@ -146,8 +146,8 @@ const Board = ({
               className={`${
                 bigGridValues[gridIndex] === ''
                   ? ''
-                  : 'pointer-events-none overflow-hidden'
-              } relative w-[31.5%] aspect-square bg-white rounded-md flex flex-wrap justify-around items-center shadow-md`}
+                  : 'pointer-events-none'
+              } relative w-[31.5%] aspect-square bg-white rounded-md overflow-hidden flex flex-wrap justify-around items-center shadow-md`}
             >
               {bigGridValues[gridIndex] === 'cross' && <BigCross />}
               {bigGridValues[gridIndex] === 'circle' && <BigCircle />}
@@ -195,7 +195,7 @@ export const GlobalCricle = () => {
 
 export const BigCross = () => {
   return (
-    <div className='absolute w-full h-full z-10 flex justify-center items-center bg-[#00000020] backdrop-blur-sm'>
+    <div className='absolute w-full h-full z-10 flex justify-center items-center bg-[#00000020] backdrop-blur-sm rounded-md'>
       <Cross />
     </div>
   );
@@ -203,7 +203,7 @@ export const BigCross = () => {
 
 export const BigCircle = () => {
   return (
-    <div className='absolute w-full h-full z-10 flex justify-center items-center bg-[#00000020] backdrop-blur-sm'>
+    <div className='absolute w-full h-full z-10 flex justify-center items-center bg-[#00000020] backdrop-blur-sm rounded-md'>
       <Circle />
     </div>
   );
