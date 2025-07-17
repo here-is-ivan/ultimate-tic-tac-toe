@@ -1,7 +1,17 @@
 import { ImCross } from 'react-icons/im';
 import { FaDotCircle } from 'react-icons/fa';
 
-const PlayerBoardHeader = ({ isCrossTurn }: { isCrossTurn: boolean }) => {
+interface PlayerBoardHeaderProps {
+  isCrossTurn: boolean;
+  crossScore: number;
+  circleScore: number;
+}
+
+const PlayerBoardHeader = ({
+  isCrossTurn,
+  crossScore,
+  circleScore,
+}: PlayerBoardHeaderProps) => {
   return (
     <header className='h-1/6 lg:h-auto m-4 flex flex-col justify-center'>
       <div className='flex items-center flex-row lg:flex-col'>
@@ -14,7 +24,7 @@ const PlayerBoardHeader = ({ isCrossTurn }: { isCrossTurn: boolean }) => {
             <ImCross size={24} />
             <span>:</span>
           </div>
-          <span className='font-bold'>0</span>
+          <span className='font-bold'>{crossScore}</span>
         </div>
         <div
           className={`h-24 lg:h-32 flex items-center gap-2 backdrop-blur-lg text-[var(--primary-blue)] text-3xl bg-[var(--transparent-blue)] w-1/2 lg:w-full p-8 rounded-3xl border-4 border-[var(--primary-blue)] border-l-0 rounded-l-none lg:border-t-0 lg:rounded-t-none lg:border-l-4 lg:rounded-b-3xl transition-all ${
@@ -25,7 +35,7 @@ const PlayerBoardHeader = ({ isCrossTurn }: { isCrossTurn: boolean }) => {
             <FaDotCircle />
             <span>:</span>
           </div>
-          <span className='font-bold'>0</span>
+          <span className='font-bold'>{circleScore}</span>
         </div>
       </div>
     </header>

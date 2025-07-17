@@ -3,19 +3,32 @@ import { ImCross } from 'react-icons/im';
 import { FaDotCircle } from 'react-icons/fa';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { getTicTacToeWinner } from '../utils/ticTacToeUtils';
+import type { CellValues } from '../types';
+import { shootWinnerConfetti } from '../utils/confettiUtils';
+
+interface BoardProps {
+  isCrossTurn: boolean;
+  setIsCrossTurn: React.Dispatch<React.SetStateAction<boolean>>;
+  crossScore: number;
+  setCrossScore: React.Dispatch<React.SetStateAction<number>>;
+  circleScore: number;
+  setCircleScore: React.Dispatch<React.SetStateAction<number>>;
+}
 
 const Board = ({
   isCrossTurn,
   setIsCrossTurn,
-}: {
-  isCrossTurn: boolean;
-  setIsCrossTurn: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+  crossScore,
+  setCrossScore,
+  circleScore,
+  setCircleScore,
+}: BoardProps) => {
   const [dimension, setDimension] = useState(0);
   const boardRef = useRef<HTMLDivElement>(null);
   const cellRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const [gridValues, setGridValues] = useState([
+  const [gridValues, setGridValues] = useState<CellValues[][]>([
     ['', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', ''],
@@ -27,17 +40,19 @@ const Board = ({
     ['', '', '', '', '', '', '', '', ''],
   ]);
 
-  // const [bigGridValues, setBigGridValues] = useState([
-  //   '',
-  //   '',
-  //   '',
-  //   '',
-  //   '',
-  //   '',
-  //   '',
-  //   '',
-  //   '',
-  // ]);
+  const [bigGridValues, setBigGridValues] = useState<CellValues[]>([
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ]);
+
+  const [globalWinner, setGlobalWinner] = useState<CellValues>('');
 
   useEffect(() => {
     const calculateDimension = () => {
@@ -74,28 +89,68 @@ const Board = ({
     if (gridValues[girdIndex][cellIndex] !== '') return;
 
     const shape = isCrossTurn ? 'cross' : 'circle';
-    const newGrid = [...gridValues];
+    const newGrid = [...gridValues] as ('' | 'circle' | 'cross')[][];
     newGrid[girdIndex][cellIndex] = shape;
 
     setGridValues(newGrid);
     setIsCrossTurn(!isCrossTurn);
+
+    const checkWinner = getTicTacToeWinner(newGrid[girdIndex]);
+    if (!checkWinner.hasWinner) return;
+
+    const newBigGridValues = [...bigGridValues];
+    newBigGridValues[girdIndex] = checkWinner.winner;
+    setBigGridValues(newBigGridValues);
+
+    switch (checkWinner.winner) {
+      case 'circle':
+        setCircleScore(circleScore + 1);
+        break;
+      case 'cross':
+        setCrossScore(crossScore + 1);
+        break;
+    }
+
+    const checkGlobalWinner = getTicTacToeWinner(newBigGridValues);
+    if (!checkGlobalWinner.hasWinner) return;
+    setGlobalWinner(checkGlobalWinner.winner);
+    shootWinnerConfetti(checkGlobalWinner.winner);
+
+    switch (checkWinner.winner) {
+      case 'circle':
+        setCircleScore(9);
+        setCrossScore(0);
+        break;
+      case 'cross':
+        setCircleScore(0);
+        setCrossScore(9);
+        break;
+    }
   };
 
   return (
     <div
-      className='h-5/6 lg:h-full aspect-square flex justify-center items-center'
+      className='h-5/6 lg:h-full aspect-square flex justify-center items-center overflow-hidden'
       ref={boardRef}
     >
       <div
-        className='bg-[var(--primary-gray)] rounded-lg flex flex-wrap justify-around items-center'
+        className='bg-[var(--primary-gray)] relative rounded-lg flex flex-wrap justify-around items-center overflow-hidden'
         style={{ width: dimension, height: dimension }}
       >
+        {globalWinner === 'cross' && <GlobalCross />}
+        {globalWinner === 'circle' && <GlobalCricle />}
         {gridValues.map((grid, gridIndex) => {
           return (
             <div
               key={gridIndex}
-              className='w-[31.5%] aspect-square bg-white rounded-md flex flex-wrap justify-around items-center shadow-md'
+              className={`${
+                bigGridValues[gridIndex] === ''
+                  ? ''
+                  : 'pointer-events-none overflow-hidden'
+              } relative w-[31.5%] aspect-square bg-white rounded-md flex flex-wrap justify-around items-center shadow-md`}
             >
+              {bigGridValues[gridIndex] === 'cross' && <BigCross />}
+              {bigGridValues[gridIndex] === 'circle' && <BigCircle />}
               {grid.map((cell, cellIndex) => {
                 const flatIndex = gridIndex * 9 + cellIndex;
                 return (
@@ -118,6 +173,38 @@ const Board = ({
           );
         })}
       </div>
+    </div>
+  );
+};
+
+export const GlobalCross = () => {
+  return (
+    <div className='absolute w-full h-full z-20 flex justify-center items-center bg-[#00000010] backdrop-blur-lg'>
+      <Cross />
+    </div>
+  );
+};
+
+export const GlobalCricle = () => {
+  return (
+    <div className='absolute w-full h-full z-20 flex justify-center items-center bg-[#00000010] backdrop-blur-lg'>
+      <Circle />
+    </div>
+  );
+};
+
+export const BigCross = () => {
+  return (
+    <div className='absolute w-full h-full z-10 flex justify-center items-center bg-[#00000020] backdrop-blur-sm'>
+      <Cross />
+    </div>
+  );
+};
+
+export const BigCircle = () => {
+  return (
+    <div className='absolute w-full h-full z-10 flex justify-center items-center bg-[#00000020] backdrop-blur-sm'>
+      <Circle />
     </div>
   );
 };
