@@ -49,7 +49,7 @@ const BluredBackground = () => {
   return (
     <div
       ref={bgRef}
-      className='absolute w-dvw h-dvh -z-10 top-0 left-0 opacity-60 blur-md overflow-hidden'
+      className='absolute min-w-dvw w-full min-h-dvh h-full -z-10 top-0 left-0 opacity-60 blur-md overflow-hidden'
     >
       {shapesRef.current.map(({ id, top, left, size, isCross }) =>
         isCross ? (

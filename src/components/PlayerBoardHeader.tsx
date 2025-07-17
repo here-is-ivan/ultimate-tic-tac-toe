@@ -9,6 +9,7 @@ interface PlayerBoardHeaderProps {
   crossScore: number;
   circleScore: number;
   globalWinner: CellValues;
+  setIsRestartWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PlayerBoardHeader = ({
@@ -16,6 +17,7 @@ const PlayerBoardHeader = ({
   crossScore,
   circleScore,
   globalWinner,
+  setIsRestartWindowOpen,
 }: PlayerBoardHeaderProps) => {
   return (
     <div className='m-4 flex items-center justify-center gap-4 lg:flex-col lg:justify-between'>
@@ -55,7 +57,7 @@ const PlayerBoardHeader = ({
         </div>
       </header>
       <div className='hidden sm:block'>
-        <HelperButtonts />
+        <HelperButtonts setIsRestartWindowOpen={setIsRestartWindowOpen} />
       </div>
     </div>
   );

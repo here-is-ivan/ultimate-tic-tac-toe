@@ -12,7 +12,7 @@ const StartScreen = () => {
 
   useGSAP(() => {
     if (!titleRef.current) return;
-    const letters = titleRef.current.querySelectorAll('.title-letter');
+    const letters = titleRef.current.querySelectorAll('span');
     gsap.set(letters, { opacity: 0, x: 40, scale: 0.8 });
     gsap.to(letters, {
       opacity: 1,
@@ -23,7 +23,7 @@ const StartScreen = () => {
     });
 
     if (buttonsRef.current) {
-      const btns = buttonsRef.current.querySelectorAll('.start-btn');
+      const btns = buttonsRef.current.children;
       gsap.set(btns, { opacity: 0 });
       gsap.to(btns, {
         opacity: 1,
@@ -47,29 +47,29 @@ const StartScreen = () => {
           className='my-8 mx-6 text-5xl text-center font-bold flex justify-center gap-4 flex-wrap'
         >
           <div className='flex'>
-            <span className='title-letter'>U</span>
-            <span className='title-letter'>l</span>
-            <span className='title-letter'>t</span>
-            <span className='title-letter'>i</span>
-            <span className='title-letter'>m</span>
-            <span className='title-letter'>a</span>
-            <span className='title-letter'>t</span>
-            <span className='title-letter'>e</span>
+            <span>U</span>
+            <span>l</span>
+            <span>t</span>
+            <span>i</span>
+            <span>m</span>
+            <span>a</span>
+            <span>t</span>
+            <span>e</span>
           </div>
           <div className='flex'>
-            <span className='title-letter'>T</span>
-            <span className='title-letter'>i</span>
-            <span className='title-letter'>c</span>
+            <span>T</span>
+            <span>i</span>
+            <span>c</span>
           </div>
           <div className='flex'>
-            <span className='title-letter'>T</span>
-            <span className='title-letter'>a</span>
-            <span className='title-letter'>c</span>
+            <span>T</span>
+            <span>a</span>
+            <span>c</span>
           </div>
           <div className='flex'>
-            <span className='title-letter'>T</span>
-            <span className='title-letter'>o</span>
-            <span className='title-letter'>e</span>
+            <span>T</span>
+            <span>o</span>
+            <span>e</span>
           </div>
         </h1>
         <div
@@ -78,14 +78,14 @@ const StartScreen = () => {
         >
           <button
             onClick={goToPlayBoard}
-            className='start-btn bg-[var(--primary-blue)] text-white font-bold text-2xl lg:text-xl p-6 lg:p-x rounded-lg cursor-pointer flex justify-center items-center gap-2 shadow-md hover:scale-110 transition-transform'
+            className='bg-[var(--primary-blue)] btn-primary'
           >
             <BsPeopleFill size={24} />
             <p>2 Players</p>
           </button>
           <button
             onClick={goToPlayBoard}
-            className='start-btn bg-[var(--primary-red)] text-white font-bold text-2xl lg:text-xl p-6 lg:p-x rounded-lg cursor-pointer flex justify-center items-center gap-2 shadow-md hover:scale-110 transition-transform'
+            className='bg-[var(--primary-red)] btn-primary'
           >
             <BsRobot size={24} />
             <p>Computer</p>
