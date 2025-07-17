@@ -14,6 +14,8 @@ interface BoardProps {
   setCrossScore: React.Dispatch<React.SetStateAction<number>>;
   circleScore: number;
   setCircleScore: React.Dispatch<React.SetStateAction<number>>;
+  globalWinner: CellValues;
+  setGlobalWinner: React.Dispatch<React.SetStateAction<CellValues>>;
 }
 
 const Board = ({
@@ -23,6 +25,8 @@ const Board = ({
   setCrossScore,
   circleScore,
   setCircleScore,
+  globalWinner,
+  setGlobalWinner,
 }: BoardProps) => {
   const [dimension, setDimension] = useState(0);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -52,8 +56,6 @@ const Board = ({
     '',
   ]);
 
-  const [globalWinner, setGlobalWinner] = useState<CellValues>('');
-
   useEffect(() => {
     const calculateDimension = () => {
       if (boardRef.current) {
@@ -65,25 +67,27 @@ const Board = ({
 
     calculateDimension();
     window.addEventListener('resize', calculateDimension);
-
     return () => window.removeEventListener('resize', calculateDimension);
   }, []);
 
-  useGSAP(() => {
-    if (cellRefs.current.length === 81) {
-      gsap.set(cellRefs.current, { opacity: 0, scale: 0.8 });
-      gsap.to(cellRefs.current, {
-        opacity: 1,
-        scale: 1,
-        delay: 0.1,
-        stagger: {
-          each: 0.005,
-          from: 'random',
-        },
-        ease: 'power3.out',
-      });
-    }
-  }, [dimension]);
+  useGSAP(
+    () => {
+      if (cellRefs.current.length === 81) {
+        gsap.set(cellRefs.current, { opacity: 0, scale: 0.8 });
+        gsap.to(cellRefs.current, {
+          opacity: 1,
+          scale: 1,
+          delay: 0.1,
+          stagger: {
+            each: 0.005,
+            from: 'random',
+          },
+          ease: 'power3.out',
+        });
+      }
+    },
+    { scope: cellRefs }
+  );
 
   const fillCell = (girdIndex: number, cellIndex: number) => {
     if (gridValues[girdIndex][cellIndex] !== '') return;
@@ -130,7 +134,7 @@ const Board = ({
 
   return (
     <div
-      className='h-5/6 lg:h-full aspect-square flex justify-center items-center'
+      className='aspect-square flex justify-center items-center'
       ref={boardRef}
     >
       <div
@@ -144,9 +148,7 @@ const Board = ({
             <div
               key={gridIndex}
               className={`${
-                bigGridValues[gridIndex] === ''
-                  ? ''
-                  : 'pointer-events-none'
+                bigGridValues[gridIndex] === '' ? '' : 'pointer-events-none'
               } relative w-[31.5%] aspect-square bg-white rounded-md overflow-hidden flex flex-wrap justify-around items-center shadow-md`}
             >
               {bigGridValues[gridIndex] === 'cross' && <BigCross />}
