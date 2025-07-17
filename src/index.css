@@ -3,12 +3,12 @@
 
 @theme {
   --primary-red: #ff3b30;
-  --transparent-red: #ff3b3025;
+  --transparent-red: #ff3b3015;
   --primary-blue: #007aff;
-  --transparent-blue: #007aff25;
+  --transparent-blue: #007aff15;
   --primary-dark: #7c7c7c;
+  --primary-gray: #e6e6e6;
 }
-
 
 :root {
   font-family: 'Atkinson Hyperlegible Mono', Helvetica, sans-serif;

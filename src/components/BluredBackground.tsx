@@ -8,13 +8,15 @@ import { FaDotCircle } from 'react-icons/fa';
 
 const BluredBackground = () => {
   const NUM_SHAPES = 12;
-  const shapes = Array.from({ length: NUM_SHAPES }).map((_, i) => {
-    const top = Math.random() * 100;
-    const left = Math.random() * 100;
-    const size = 32 + Math.random() * 48;
-    const isCross = Math.random() > 0.5;
-    return { id: i, top, left, size, isCross };
-  });
+  const shapesRef = useRef<{ id: number; top: number; left: number; size: number; isCross: boolean }[]>(
+    Array.from({ length: NUM_SHAPES }).map((_, i) => {
+      const top = Math.random() * 100;
+      const left = Math.random() * 100;
+      const size = 32 + Math.random() * 48;
+      const isCross = Math.random() > 0.5;
+      return { id: i, top, left, size, isCross };
+    })
+  );
 
   const bgRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +51,7 @@ const BluredBackground = () => {
       ref={bgRef}
       className='absolute w-dvw h-dvh -z-10 top-0 left-0 opacity-60 blur-md overflow-hidden'
     >
-      {shapes.map(({ id, top, left, size, isCross }) =>
+      {shapesRef.current.map(({ id, top, left, size, isCross }) =>
         isCross ? (
           <Cross
             key={id}
