@@ -1,3 +1,5 @@
+import { IoArrowBackSharp } from "react-icons/io5";
+
 const RestartGameScreen = ({
   isRestartWindowOpen,
   setIsRestartWindowOpen,
@@ -9,6 +11,12 @@ const RestartGameScreen = ({
 
   return (
     <div className='absolute w-dvw h-full bg-[#00000070] backdrop-blur-md z-50 flex flex-col items-center gap-8'>
+      <div
+        onClick={() => setIsRestartWindowOpen(false)}
+        className='absolute left-4 top-4 text-4xl cursor-pointer text-white'
+      >
+        <IoArrowBackSharp />
+      </div>
       <p className='font-bold text-4xl text-white mt-20'>RESTART?</p>
       <div className='flex flex-col justify-center items-center gap-4'>
         <button

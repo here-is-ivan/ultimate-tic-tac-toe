@@ -10,6 +10,7 @@ interface PlayerBoardHeaderProps {
   circleScore: number;
   globalWinner: CellValues;
   setIsRestartWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsTutorialOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PlayerBoardHeader = ({
@@ -18,6 +19,7 @@ const PlayerBoardHeader = ({
   circleScore,
   globalWinner,
   setIsRestartWindowOpen,
+  setIsTutorialOpen,
 }: PlayerBoardHeaderProps) => {
   return (
     <div className='m-4 flex items-center justify-center gap-4 lg:flex-col lg:justify-between'>
@@ -57,7 +59,10 @@ const PlayerBoardHeader = ({
         </div>
       </header>
       <div className='hidden sm:block'>
-        <HelperButtonts setIsRestartWindowOpen={setIsRestartWindowOpen} />
+        <HelperButtonts
+          setIsRestartWindowOpen={setIsRestartWindowOpen}
+          setIsTutorialOpen={setIsTutorialOpen}
+        />
       </div>
     </div>
   );
