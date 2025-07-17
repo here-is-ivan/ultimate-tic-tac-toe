@@ -21,7 +21,7 @@ const Board = () => {
 
   return (
     <div
-      className='h-5/6 lg:h-full lg:w-2/3 flex justify-center items-center'
+      className='h-5/6 lg:h-full aspect-square flex justify-center items-center'
       ref={boardRef}
     >
       <div
