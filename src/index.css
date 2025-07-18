@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&display=swap');
 @import 'tailwindcss';
 
+body {
+  /* font-family: "Atkinson Hyperlegible Mono", monospace; */
+  font-family: monospace;
+}
+
 :root {
   --primary-red: #ff3b30;
   --transparent-red: #ff3b3015;

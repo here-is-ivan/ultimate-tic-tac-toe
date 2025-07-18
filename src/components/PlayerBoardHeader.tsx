@@ -9,6 +9,7 @@ interface PlayerBoardHeaderProps {
   crossScore: number;
   circleScore: number;
   globalWinner: CellValues;
+  isGameFinished: boolean;
   setIsRestartWindowOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsTutorialOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,9 +19,12 @@ const PlayerBoardHeader = ({
   crossScore,
   circleScore,
   globalWinner,
+  isGameFinished,
   setIsRestartWindowOpen,
   setIsTutorialOpen,
 }: PlayerBoardHeaderProps) => {
+  const displayTurnBorderIndicator = globalWinner !== '' || isGameFinished;
+
   return (
     <div className='m-4 flex items-center justify-center gap-4 lg:flex-col lg:justify-between'>
       <header className=' flex flex-col justify-center'>
@@ -28,7 +32,7 @@ const PlayerBoardHeader = ({
           <div
             className={`h-24 lg:h-32 flex items-center gap-2 backdrop-blur-lg text-[var(--primary-red)] text-3xl bg-[var(--transparent-red)] w-1/2 lg:w-full p-8 rounded-3xl border-4 border-[var(--primary-red)] border-r-0 rounded-r-none lg:border-b-0 lg:rounded-b-none lg:border-r-4 lg:rounded-r-3xl transition-all ${
               isCrossTurn ? '' : 'border-transparent'
-            } ${globalWinner !== '' ? 'border-transparent' : ''}
+            } ${displayTurnBorderIndicator ? 'border-transparent' : ''}
           `}
           >
             <div className='flex items-center gap-1'>
@@ -44,7 +48,7 @@ const PlayerBoardHeader = ({
           <div
             className={`h-24 lg:h-32 flex items-center gap-2 backdrop-blur-lg text-[var(--primary-blue)] text-3xl bg-[var(--transparent-blue)] w-1/2 lg:w-full p-8 rounded-3xl border-4 border-[var(--primary-blue)] border-l-0 rounded-l-none lg:border-t-0 lg:rounded-t-none lg:border-l-4 lg:rounded-b-3xl transition-all ${
               isCrossTurn ? 'border-transparent' : ''
-            } ${globalWinner !== '' ? 'border-transparent' : ''}`}
+            } ${displayTurnBorderIndicator ? 'border-transparent' : ''}`}
           >
             <div className='flex items-center gap-1'>
               <FaDotCircle />

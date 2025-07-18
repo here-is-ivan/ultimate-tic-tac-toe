@@ -5,7 +5,6 @@ import { useGSAP } from '@gsap/react';
 import { ImCross } from 'react-icons/im';
 import { FaDotCircle } from 'react-icons/fa';
 
-
 const BluredBackground = () => {
   const NUM_SHAPES = 12;
   const shapesRef = useRef<{ id: number; top: number; left: number; size: number; isCross: boolean }[]>(
@@ -24,7 +23,6 @@ const BluredBackground = () => {
     () => {
       if (!bgRef.current) return;
       const elements = bgRef.current.querySelectorAll('.bg-anim-el');
-      // Set initial state with random rotation and scale
       elements.forEach((el) => {
         const rot = gsap.utils.random(-18, 18);
         const scl = gsap.utils.random(0.7, 0.95);
