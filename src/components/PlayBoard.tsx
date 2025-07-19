@@ -5,6 +5,7 @@ import type { CellValues } from '../types';
 import { shootWinnerConfetti } from '../utils/confettiUtils';
 
 import { getTicTacToeWinner } from '../utils/ticTacToeUtils';
+
 import {
   CellCircleShape,
   CellCrossShape,
@@ -13,6 +14,7 @@ import {
   BigGridCircleShape,
   BigGridCrossShape,
 } from './PlayBoardShapes';
+import { aiNextMoveUtils } from '../utils/aiNextMoveUtils';
 
 interface BoardProps {
   isCrossTurn: boolean;
@@ -43,6 +45,7 @@ const Board = ({
   const cellRefs = useRef<(HTMLDivElement | null)[]>([]);
   const crossScoreRef = useRef<number>(crossScore);
   const circleScoreRef = useRef<number>(circleScore);
+  const isCrossTurnRef = useRef<boolean>(isCrossTurn);
 
   const [gridValues, setGridValues] = useState<CellValues[][]>([
     ['', '', '', '', '', '', '', '', ''],
@@ -88,15 +91,23 @@ const Board = ({
   const fillCell = (girdIndex: number, cellIndex: number) => {
     if (gridValues[girdIndex][cellIndex] !== '') return;
 
-    const shape: CellValues = isCrossTurn ? 'cross' : 'circle';
+    const shape: CellValues = isCrossTurnRef.current ? 'cross' : 'circle';
     gridValuesRef.current[girdIndex][cellIndex] = shape;
 
     setGridValues(gridValuesRef.current);
-    setIsCrossTurn(!isCrossTurn);
+
+    isCrossTurnRef.current = !isCrossTurnRef.current;
+    setIsCrossTurn(isCrossTurnRef.current);
 
     checkSmallGridWinner(girdIndex);
     checkBigGridWinner();
     checkGameFinished();
+  };
+
+  const aiCheck = () => {
+    if (!isCrossTurnRef.current) return;
+    const index = aiNextMoveUtils(gridValues[0]);
+    console.log(index);
   };
 
   const checkSmallGridWinner = (smallGridIndex: number) => {
@@ -203,7 +214,10 @@ const Board = ({
                     ref={(el) => {
                       cellRefs.current[flatIndex] = el;
                     }}
-                    onClick={() => fillCell(gridIndex, cellIndex)}
+                    onClick={() => {
+                      fillCell(gridIndex, cellIndex);
+                      aiCheck();
+                    }}
                     className={`${
                       cell !== '' ? '' : 'cursor-pointer'
                     } w-[30.5%] aspect-square bg-[var(--primary-gray)] rounded-sm flex justify-center items-center`}
