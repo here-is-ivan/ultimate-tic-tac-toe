@@ -1,6 +1,6 @@
 # Ultimate Tic-Tac-Toe
 
-Hey! 👋 This is my take on Ultimate Tic-Tac-Toe, built just for fun (and to show off a bit) using **React**, **TypeScript**, and **Tailwind CSS**.
+Hey! 👋 This is my take on Ultimate Tic-Tac-Toe, built just for fun using **React**, **TypeScript**, and **Tailwind CSS**.
 
 [Check it out live!](https://ultimate-tic-tac-toe-five.vercel.app/)
 
