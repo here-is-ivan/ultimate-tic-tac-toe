@@ -39,7 +39,7 @@ const StartScreen = () => {
 
   const goToPlayBoard = (aiMode: boolean) => {
     setIsAIMode(aiMode);
-    navigate('/ultimate-tic-tac-toe/play-board');
+    navigate('/play-board');
   };
 
   return (

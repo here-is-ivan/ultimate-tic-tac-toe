@@ -11,7 +11,7 @@ const App = () => {
   return (
     <GameSettingsContext value={{ isAIMode, setIsAIMode }}>
       <Routes>
-        <Route path='' element={<StartScreen />} />
+        <Route path='/' element={<StartScreen />} />
         <Route
           path='/play-board'
           element={<PlayBoardPage />}
