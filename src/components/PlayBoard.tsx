@@ -49,6 +49,7 @@ const Board = ({
   const crossScoreRef = useRef<number>(crossScore);
   const circleScoreRef = useRef<number>(circleScore);
   const isCrossTurnRef = useRef<boolean>(isCrossTurn);
+  const canPlaceCircle = useRef<boolean>(true);
 
   const [gridValues, setGridValues] = useState<CellValues[][]>([
     ['', '', '', '', '', '', '', '', ''],
@@ -207,7 +208,9 @@ const Board = ({
             <div
               key={gridIndex}
               className={`${
-                bigGridValues[gridIndex] === '' ? '' : 'pointer-events-none'
+                bigGridValues[gridIndex] === '' && canPlaceCircle.current
+                  ? ''
+                  : 'pointer-events-none'
               } relative w-[31.5%] aspect-square bg-white rounded-md overflow-hidden flex flex-wrap justify-around items-center shadow-md`}
             >
               {bigGridValues[gridIndex] === 'cross' && <SubgridCrossShape />}
@@ -223,9 +226,14 @@ const Board = ({
                     onClick={() => {
                       if (isAIMode) {
                         fillCell(gridIndex, cellIndex);
+                        canPlaceCircle.current = false;
                         switchTeams();
-                        aiFillCell();
-                        switchTeams();
+
+                        setTimeout(() => {
+                          aiFillCell();
+                          switchTeams();
+                          canPlaceCircle.current = true;
+                        }, 500);
                       } else {
                         fillCell(gridIndex, cellIndex);
                         switchTeams();
