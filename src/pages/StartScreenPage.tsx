@@ -1,14 +1,16 @@
 import { BsPeopleFill, BsRobot } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import BluredBackground from '../components/BluredBackground';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { GameSettingsContext } from '../GameSettingsContext';
 
 const StartScreen = () => {
   const navigate = useNavigate();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
+  const { setIsAIMode } = useContext(GameSettingsContext);
 
   useGSAP(() => {
     if (!titleRef.current) return;
@@ -35,7 +37,8 @@ const StartScreen = () => {
     }
   }, []);
 
-  const goToPlayBoard = () => {
+  const goToPlayBoard = (aiMode: boolean) => {
+    setIsAIMode(aiMode);
     navigate('/ultimate-tic-tac-toe/play-board');
   };
 
@@ -77,14 +80,14 @@ const StartScreen = () => {
           className='flex-1 w-dvw flex flex-col items-center justify-center gap-8'
         >
           <button
-            onClick={goToPlayBoard}
+            onClick={() => goToPlayBoard(false)}
             className='bg-[var(--primary-blue)] btn-primary'
           >
             <BsPeopleFill size={24} />
             <p>2 Players</p>
           </button>
           <button
-            onClick={goToPlayBoard}
+            onClick={() => goToPlayBoard(true)}
             className='bg-[var(--primary-red)] btn-primary'
           >
             <BsRobot size={24} />

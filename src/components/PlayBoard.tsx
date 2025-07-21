@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import type { CellValues } from '../types';
@@ -15,6 +15,8 @@ import {
   BigGridCrossShape,
 } from './PlayBoardShapes';
 import { aiNextMoveUtils } from '../utils/aiNextMoveUtils';
+import { aiNextSubgridUtils } from '../utils/aiNextSubgridUtils';
+import { GameSettingsContext } from '../GameSettingsContext';
 
 interface BoardProps {
   isCrossTurn: boolean;
@@ -39,6 +41,7 @@ const Board = ({
   setGlobalWinner,
   setIsGameFinished,
 }: BoardProps) => {
+  const { isAIMode } = useContext(GameSettingsContext);
   const [dimension, setDimension] = useState(0);
 
   const boardRef = useRef<HTMLDivElement>(null);
@@ -74,40 +77,29 @@ const Board = ({
   const gridValuesRef = useRef<CellValues[][]>(gridValues);
   const bigGridValuesRef = useRef<CellValues[]>(bigGridValues);
 
-  useEffect(() => {
-    const calculateDimension = () => {
-      if (boardRef.current) {
-        const width = boardRef.current.clientWidth;
-        const height = boardRef.current.clientHeight;
-        setDimension(Math.min(width, height) * 0.95);
-      }
-    };
-
-    calculateDimension();
-    window.addEventListener('resize', calculateDimension);
-    return () => window.removeEventListener('resize', calculateDimension);
-  }, []);
-
   const fillCell = (girdIndex: number, cellIndex: number) => {
     if (gridValues[girdIndex][cellIndex] !== '') return;
 
     const shape: CellValues = isCrossTurnRef.current ? 'cross' : 'circle';
     gridValuesRef.current[girdIndex][cellIndex] = shape;
 
-    setGridValues(gridValuesRef.current);
-
-    isCrossTurnRef.current = !isCrossTurnRef.current;
-    setIsCrossTurn(isCrossTurnRef.current);
+    setGridValues([...gridValuesRef.current]);
 
     checkSmallGridWinner(girdIndex);
     checkBigGridWinner();
     checkGameFinished();
   };
 
-  const aiCheck = () => {
-    if (!isCrossTurnRef.current) return;
-    const index = aiNextMoveUtils(gridValues[0]);
-    console.log(index);
+  const switchTeams = () => {
+    isCrossTurnRef.current = !isCrossTurnRef.current;
+    setIsCrossTurn(isCrossTurnRef.current);
+  };
+
+  const aiFillCell = () => {
+    const subgridIndex = aiNextSubgridUtils(gridValues, bigGridValues);
+    const cellIndex = aiNextMoveUtils(gridValues[subgridIndex]);
+
+    fillCell(subgridIndex, cellIndex);
   };
 
   const checkSmallGridWinner = (smallGridIndex: number) => {
@@ -166,6 +158,20 @@ const Board = ({
     setIsGameFinished(true);
   };
 
+  useEffect(() => {
+    const calculateDimension = () => {
+      if (boardRef.current) {
+        const width = boardRef.current.clientWidth;
+        const height = boardRef.current.clientHeight;
+        setDimension(Math.min(width, height) * 0.95);
+      }
+    };
+
+    calculateDimension();
+    window.addEventListener('resize', calculateDimension);
+    return () => window.removeEventListener('resize', calculateDimension);
+  }, []);
+
   useGSAP(
     () => {
       if (cellRefs.current.length === 81) {
@@ -215,8 +221,15 @@ const Board = ({
                       cellRefs.current[flatIndex] = el;
                     }}
                     onClick={() => {
-                      fillCell(gridIndex, cellIndex);
-                      aiCheck();
+                      if (isAIMode) {
+                        fillCell(gridIndex, cellIndex);
+                        switchTeams();
+                        aiFillCell();
+                        switchTeams();
+                      } else {
+                        fillCell(gridIndex, cellIndex);
+                        switchTeams();
+                      }
                     }}
                     className={`${
                       cell !== '' ? '' : 'cursor-pointer'
