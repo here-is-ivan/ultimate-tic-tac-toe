@@ -11,9 +11,9 @@ const App = () => {
   return (
     <GameSettingsContext value={{ isAIMode, setIsAIMode }}>
       <Routes>
-        <Route path='/ultimate-tic-tac-toe' element={<StartScreen />} />
+        <Route path='' element={<StartScreen />} />
         <Route
-          path='/ultimate-tic-tac-toe/play-board'
+          path='/play-board'
           element={<PlayBoardPage />}
         />
       </Routes>
