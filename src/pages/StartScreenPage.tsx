@@ -39,6 +39,7 @@ const StartScreen = () => {
 
   const goToPlayBoard = (aiMode: boolean) => {
     setIsAIMode(aiMode);
+    sessionStorage.setItem('isAIMode', aiMode.toString());
     navigate('/play-board');
   };
 

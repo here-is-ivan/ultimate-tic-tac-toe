@@ -7,7 +7,7 @@ interface GameSettingsContextType {
 
 export const GameSettingsContext = React.createContext<GameSettingsContextType>(
   {
-    isAIMode: false,
+    isAIMode: sessionStorage.getItem('isAIMode') === 'true',
     setIsAIMode: () => {},
   }
 );

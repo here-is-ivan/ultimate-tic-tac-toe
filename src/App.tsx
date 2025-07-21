@@ -6,16 +6,15 @@ import PlayBoardPage from './pages/PlayBoardPage';
 import { useState } from 'react';
 
 const App = () => {
-  const [isAIMode, setIsAIMode] = useState(false);
+  const [isAIMode, setIsAIMode] = useState(
+    sessionStorage.getItem('isAIMode') === 'true'
+  );
 
   return (
     <GameSettingsContext value={{ isAIMode, setIsAIMode }}>
       <Routes>
         <Route path='/' element={<StartScreen />} />
-        <Route
-          path='/play-board'
-          element={<PlayBoardPage />}
-        />
+        <Route path='/play-board' element={<PlayBoardPage />} />
       </Routes>
     </GameSettingsContext>
   );
